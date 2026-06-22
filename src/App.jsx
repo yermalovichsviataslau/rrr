@@ -1,22 +1,35 @@
 import "./App.css";
-import Array from "./components/array";
-import Boolean from "./components/boolean";
-import Function from "./components/function";
-import Number from "./components/number";
-import Object from "./components/object";
-import String from "./components/String";
+import ChangeColor from "./components/ChangeColor";
+import Counter from "./components/Counter";
+import InputText from "./components/InputText";
+import ShowText from "./components/ShowText";
 
-function App() {
+const App = () => {
   return (
     <>
-      <Number num={20} />
-      <String str={"Hello"} />
-      <Boolean bool={true} />
-      <Object user={{ name: "Sviat", age: 20 }} />
-      <Function fun={()=>{ console.log('function')}}/>
-      <Array arr={[1,2,3,4,5]} />
+      <h2>Task 1</h2>
+      <p>
+        1. Создай компонент с кнопкой, которая увеличивает значение state на 1
+        при каждом нажатии.
+      </p>
+      <Counter />
+      <br />
+      <p>
+        2. Создай компонент, который скрывает или показывает текст при помощи
+        кнопки.
+      </p>
+      <ShowText />
+      <br />
+      <p>
+        3. Создай компонент с полем ввода, которое обновляет значение state при
+        каждом вводе. Выведи значение state под полем ввода.
+      </p>
+      <InputText />
+      <br />
+      <p>4. Создай компонент с кнопкой, которая меняет цвет текста при каждом нажатии.</p>
+      <ChangeColor />
     </>
   );
-}
+};
 
 export default App;
