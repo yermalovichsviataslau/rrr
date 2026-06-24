@@ -1,22 +1,15 @@
 import "./App.css";
-import Profile from "./components/Profile";
-import ShopBasket from "./components/ShopBasket";
-import Todolist from "./components/Todolist";
+import LifecycleComponent from "./components/LifecycleComponentClass";
+import LifecycleComponentUseEffect from "./components/LifecycleComponentUseEffect";
 
 function App() {
   return (
-    <>
-      <p>1. Стейт — объект</p>
-      <Profile />
+    <div>
+      <LifecycleComponent />
       <br />
-
-      <p>2. Стейт — массив</p>
-      <Todolist />
       <br />
-
-      <p>3. Стейт — массив объектов</p>
-      <ShopBasket />
-    </>
+      <LifecycleComponentUseEffect />
+    </div>
   );
 }
 
