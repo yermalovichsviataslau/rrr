@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 function Gallery() {
   const [count, setCount] = useState(3);
@@ -16,10 +16,10 @@ function Gallery() {
       setErrorImg("");
 
       let url;
-      if(selectedBreed){
-        url = `https://dog.ceo/api/breed/${selectedBreed}/images/random/${count}`
+      if (selectedBreed) {
+        url = `https://dog.ceo/api/breed/${selectedBreed}/images/random/${count}`;
       } else {
-        url = `https://dog.ceo/api/breeds/image/random/${count}`
+        url = `https://dog.ceo/api/breeds/image/random/${count}`;
       }
 
       const response = await fetch(url);
@@ -48,28 +48,28 @@ function Gallery() {
 
   const getBreedDogObj = async () => {
     try {
-      setErrorBreed('')
+      setErrorBreed("");
       const response = await fetch("https://dog.ceo/api/breeds/list/all");
 
-      if(!response.ok){
+      if (!response.ok) {
         throw new Error(`Ошибка сервера: ${response.status}`);
       }
-      const dateObj = await response.json()
+      const dateObj = await response.json();
 
-      if(dateObj.status === 'error'){
+      if (dateObj.status === "error") {
         throw new Error(dateObj.message || "Ошибка API");
       }
 
-      const date = Object.keys(dateObj.message)
+      const date = Object.keys(dateObj.message);
 
-      setErrorBreed('')
-      setBreedDog(date)
-      return true 
+      setErrorBreed("");
+      setBreedDog(date);
+      return true;
     } catch (error) {
       console.log(error);
-      setErrorBreed(error.message)
-      setBreedDog([])
-      return false
+      setErrorBreed(error.message);
+      setBreedDog([]);
+      return false;
     }
   };
 
@@ -110,9 +110,9 @@ function Gallery() {
     loadImages();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     loadImages();
-  }, [selectedBreed])
+  }, [selectedBreed]);
 
   return (
     <div className="">
@@ -120,17 +120,24 @@ function Gallery() {
       <p>Картинки обнновлены {imgCountUpdate} раз(а)</p>
 
       {errorImg && <p style={{ color: "red" }}>{errorImg}</p>}
-      {errorBreed&& <p style={{color: 'red'}}>{errorBreed}</p>}
-      
+      {errorBreed && <p style={{ color: "red" }}>{errorBreed}</p>}
 
       <label htmlFor="breedDog-select">Выберете породу: </label>
-      <select name="breedDog" id="breedDog-select"  onChange={(e)=>{setSelectedBreed(e.target.value)}} value={selectedBreed}>
+      <select
+        name="breedDog"
+        id="breedDog-select"
+        onChange={(e) => {
+          setSelectedBreed(e.target.value);
+        }}
+        value={selectedBreed}
+      >
         <option value="">-- Выберите породу --</option>
-        {breedDog.map((breedName)=>(
-          <option key={breedName} value={breedName}>{breedName}</option>
+        {breedDog.map((breedName) => (
+          <option key={breedName} value={breedName}>
+            {breedName}
+          </option>
         ))}
       </select>
-
 
       <div className="">
         <label htmlFor="">
