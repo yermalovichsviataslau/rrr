@@ -1,55 +1,63 @@
 import { useEffect, useState } from "react";
+import { BreedSelect } from "./BreedSelect";
+import { ImagesGrid } from "./ImageGrid";
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "https://dog.ceo/api/";
 
 function Gallery() {
-  const [count, setCount] = useState(3);
-  const [imgUrl, setImgUrl] = useState([]);
-  const [imgCountUpdate, setImgCountUpdate] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorImg, setErrorImg] = useState("");
-  const [breedDog, setBreedDog] = useState([]);
-  const [selectedBreed, setSelectedBreed] = useState("");
-  const [errorBreed, setErrorBreed] = useState("");
+  const [images, setImages] = useState({
+    count: 3,
+    urls: [],
+    countUpdate: 0,
+    isLoading: false,
+    error: "",
+  });
 
-  const loadImages = async () => {
+  const [breed, setBreed] = useState({
+    breedList: [],
+    select: "",
+    error: "",
+  });
+
+  const [countInput, setCountInput] = useState(3);
+
+  const loadImages = async (currentBreed, currentCount) => {
+    setImages((prev) => ({ ...prev, isLoading: true, error: "" }));
     try {
-      setIsLoading(true);
-      setErrorImg("");
-
       let url;
-      if (selectedBreed) {
-        url = `https://dog.ceo/api/breed/${selectedBreed}/images/random/${count}`;
+      if (currentBreed) {
+        url = `${API_BASE_URL}breed/${currentBreed}/images/random/${currentCount}`;
       } else {
-        url = `https://dog.ceo/api/breeds/image/random/${count}`;
+        url = `${API_BASE_URL}breeds/image/random/${currentCount}`;
       }
 
       const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(`Ошибка сервера: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`Ошибка сервера: ${response.status}`);
 
       const data = await response.json();
-
-      if (data.status === "error") {
+      if (data.status === "error")
         throw new Error(data.message || "Ошибка API");
-      }
 
-      setImgUrl(data.message);
-      setIsLoading(false);
-      return true;
+      setImages((prev) => ({
+        ...prev,
+        urls: Array.isArray(data.message) ? data.message : [data.message],
+        isLoading: false,
+      }));
     } catch (error) {
-      console.log("Ошибка загрузки:", error.message);
-      setErrorImg(error.message);
-      setImgUrl([]);
-      setIsLoading(false);
-      return false;
+      console.error("Ошибка загрузки:", error.message);
+      setImages((prev) => ({
+        ...prev,
+        urls: [],
+        error: error.message,
+        isLoading: false,
+      }));
     }
   };
 
   const getBreedDogObj = async () => {
     try {
-      setErrorBreed("");
-      const response = await fetch("https://dog.ceo/api/breeds/list/all");
+      const response = await fetch(`${API_BASE_URL}breeds/list/all`);
 
       if (!response.ok) {
         throw new Error(`Ошибка сервера: ${response.status}`);
@@ -62,31 +70,45 @@ function Gallery() {
 
       const date = Object.keys(dateObj.message);
 
-      setErrorBreed("");
-      setBreedDog(date);
+      setBreed((prev) => ({
+        ...prev,
+        breedList: date,
+        error: "",
+      }));
       return true;
     } catch (error) {
-      console.log(error);
-      setErrorBreed(error.message);
-      setBreedDog([]);
-      return false;
+      console.error(error);
+      setBreed((prev) => ({
+        ...prev,
+        error: error.message,
+        breedList: [],
+      }));
     }
   };
 
   const handleUpdate = async () => {
-    const success = await loadImages();
-    if (success) {
-      setImgCountUpdate((prev) => prev + 1);
-    } else {
-      alert(`Не удалось загрузить картинки: ${errorImg}`);
+    if (!countInput) {
+      alert("Укажите корректное количество картинок");
+      return;
     }
+
+    setImages((prev) => ({
+      ...prev,
+      count: countInput,
+      countUpdate: prev.countUpdate + 1,
+    }));
+
+    loadImages(breed.select, countInput);
   };
 
-  const handleChangeCount = (event) => {
-    const value = event.target.value;
+  const handleBreedChange = (selectedBreed) => {
+    setBreed((prev) => ({ ...prev, select: selectedBreed }));
+    loadImages(selectedBreed, countInput);
+  };
 
+  const handleChangeCount = (value) => {
     if (value === "") {
-      setCount("");
+      setCountInput("");
       return;
     }
 
@@ -102,75 +124,35 @@ function Gallery() {
       return;
     }
 
-    setCount(num);
+    setCountInput(num);
   };
 
   useEffect(() => {
     getBreedDogObj();
-    loadImages();
+    loadImages(breed.select, images.count);
   }, []);
 
-  useEffect(() => {
-    loadImages();
-  }, [selectedBreed]);
-
   return (
-    <div className="">
-      <h1>Галерея собак</h1>
-      <p>Картинки обнновлены {imgCountUpdate} раз(а)</p>
+    <div className="gallery-contener">
+      {breed.error && (
+        <p style={{ color: "red" }}>Ошибка пород: {breed.error}</p>
+      )}
+      <BreedSelect
+        countInput={countInput}
+        countUpdate={images.countUpdate}
+        isLoading={images.isLoading}
+        breedsList={breed.breedList}
+        selectedBreed={breed.select}
+        onChangeBreed={handleBreedChange}
+        onChangeCount={handleChangeCount}
+        onUpdate={handleUpdate}
+      />
 
-      {errorImg && <p style={{ color: "red" }}>{errorImg}</p>}
-      {errorBreed && <p style={{ color: "red" }}>{errorBreed}</p>}
-
-      <label htmlFor="breedDog-select">Выберете породу: </label>
-      <select
-        name="breedDog"
-        id="breedDog-select"
-        onChange={(e) => {
-          setSelectedBreed(e.target.value);
-        }}
-        value={selectedBreed}
-      >
-        <option value="">-- Выберите породу --</option>
-        {breedDog.map((breedName) => (
-          <option key={breedName} value={breedName}>
-            {breedName}
-          </option>
-        ))}
-      </select>
-
-      <div className="">
-        <label htmlFor="">
-          Показать
-          <input type="number" value={count} onChange={handleChangeCount} />
-        </label>
-        <button onClick={handleUpdate}>
-          {isLoading ? "Загрузка..." : "Обновить"}
-        </button>
-      </div>
-
-      <div
-        className=""
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-          justifyContent: "center",
-          flexWrap: "wrap",
-        }}
-      >
-        {imgUrl.length === 0 && !isLoading && !errorImg && (
-          <p>Нет картинок для отображения</p>
-        )}
-        {imgUrl.map((item, index) => (
-          <img
-            key={index}
-            src={item}
-            alt={`Собака ${index + 1}`}
-            style={{ width: "150px", height: "150px" }}
-          />
-        ))}
-      </div>
+      <ImagesGrid
+        urls={images.urls}
+        isLoading={images.isLoading}
+        error={images.error}
+      />
     </div>
   );
 }
