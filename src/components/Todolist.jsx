@@ -1,4 +1,5 @@
 import { useState } from "react";
+import TaskItem from "./TaskItem";
 
 function Todolist() {
   const [tasks, setTasks] = useState(["Купить хлеб", "Погулять с собакой"]);
@@ -14,9 +15,10 @@ function Todolist() {
     <div className="">
       <h3>todolist</h3>
       <ul>
-        {tasks.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
+        {tasks.map((val, index)=>{
+          return <TaskItem key={index} val={val} />
+        })}
+        
       </ul>
 
       <button onClick={addTask}>Кнопка "Добавить задачу"</button>

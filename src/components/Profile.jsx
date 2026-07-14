@@ -1,4 +1,5 @@
 import { useState } from "react";
+import UserInfo from "./UserInfo";
 
 function Profile() {
   const [user, setUser] = useState({
@@ -14,35 +15,36 @@ function Profile() {
     }));
   };
 
-  const increaseAge = ()=>{
-    setUser((prevUser)=>({
+  const increaseAge = () => {
+    setUser((prevUser) => ({
       ...prevUser,
-      age: prevUser.age + 1
-    }))
-  }
+      age: prevUser.age + 1,
+    }));
+  };
   const chacgeActive = () => {
-    setUser((prevUser)=>({
-      ...prevUser, 
-      isActive: !prevUser.isActive
-    }))
-  }
+    setUser((prevUser) => ({
+      ...prevUser,
+      isActive: !prevUser.isActive,
+    }));
+  };
 
   return (
     <div className="">
       <h3>Profile</h3>
+      <UserInfo user={user} />
 
-      <p>Name: {user.name}</p>
-      <button onClick={changeName}>Кнопка "Сменить имя"</button>
-      <br />
-      <br />
-
-      <p>Age: {user.age}</p>
-      <button onClick={increaseAge}>Кнопка "Увеличить возраст"</button>
-      <br />
-      <br />
-
-      <p>isActive: {user.isActive ? 'true' : 'false'}</p>
-      <button onClick={chacgeActive}>Кнопка "Переключить активность"</button>
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <button onClick={changeName}>Кнопка "Сменить имя"</button>
+        <button onClick={increaseAge}>Кнопка "Увеличить возраст"</button>
+        <button onClick={chacgeActive}>Кнопка "Переключить активность"</button>
+      </div>
     </div>
   );
 }
