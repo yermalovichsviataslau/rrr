@@ -1,43 +1,17 @@
 import "./App.css";
-import Profile from "./components/Profile";
-import ShopBasket from "./components/ShopBasket";
-import Todolist from "./components/Todolist";
-import ThemeToggle from "./components/ThemeToggle";
-import { ThemeContext, ThemeProvider } from "./context/ThemeContext";
-import { useContext, useEffect } from "react";
-
-const AppContent = () => {
-  const { theme } = useContext(ThemeContext);
-
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
-  }, [theme]);
-  return (
-    <>
-        <ThemeToggle />
-        <p>1. Стейт — объект</p>
-        <Profile />
-        <br />
-
-        <p>2. Стейт — массив</p>
-        <Todolist />
-        <br />
-
-        <p>3. Стейт — массив объектов</p>
-        <ShopBasket />
-    </>
-  );
-};
+import ControlPanel from "./components/ControlPanel";
+import Header from "./components/Header";
+import { LanguageProvider } from "./context/LanguageContext";
+import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
   return (
-    <ThemeProvider>
-      <AppContent />
-    </ThemeProvider>
+    <LanguageProvider>
+      <ThemeProvider>
+        <ControlPanel />
+        <Header />
+      </ThemeProvider>
+    </LanguageProvider>
   );
 }
 
