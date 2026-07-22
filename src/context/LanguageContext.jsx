@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { supportedLanguages } from "../translations";
 
 const LanguageContext = createContext();
 
@@ -7,10 +8,9 @@ export const LanguageProvider = ({ children }) => {
 
 
   const toggleLanguage = () => {
-    const languages = ["en", "ru", "de", "es"];
-    const currentIndex = languages.indexOf(language);
-    const nextIndex = (currentIndex + 1) % languages.length;
-    setLanguage(languages[nextIndex]);
+    const currentIndex = supportedLanguages.indexOf(language);
+    const nextIndex = (currentIndex + 1) % supportedLanguages.length;
+    setLanguage(supportedLanguages[nextIndex]);
     console.log();
   };
 
