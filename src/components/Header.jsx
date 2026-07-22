@@ -1,21 +1,20 @@
 import { useContext } from "react";
-import { useTranslation } from "react-i18next";
 import { LanguageContext } from "../context/LanguageContext";
 import { ThemeContext } from "../context/ThemeContext";
+import { translations } from "../translations.js";
 
 const Header = () => {
-  const { t } = useTranslation();
   const { language } = useContext(LanguageContext);
   const { theme } = useContext(ThemeContext);
 
+  const currentText = translations[language];
+
   return (
-    <>
       <header className={`header-${theme}`}>
-      <h1>{t('title')}</h1>
-      <p>{t('text')}</p>
-      <small>Текущий язык: {language}</small> 
-    </header>
-    </>
+        <h1>{currentText.title}</h1>
+        <p>{currentText.text}</p>
+        <small>Текущий язык: {language}</small>
+      </header>
   );
 };
 

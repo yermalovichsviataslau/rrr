@@ -1,14 +1,10 @@
-import { createContext, useEffect, useState } from "react";
-import i18n from "../i18";
+import { createContext, useState } from "react";
 
 const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState("en");
 
-  useEffect(() => {
-    i18n.changeLanguage(language);
-  }, [language]);
 
   const toggleLanguage = () => {
     const languages = ["en", "ru", "de", "es"];
