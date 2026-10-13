@@ -1,7 +1,7 @@
-const Section (){
-  return(
-    <section>
-      
-    </section>
-  )
-}
+// functon Section (){
+//   return(
+//     <section>
+
+//     </section>
+//   )
+// }

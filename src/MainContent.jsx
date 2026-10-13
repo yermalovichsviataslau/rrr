@@ -1,7 +1,7 @@
-const MainContent(){
-  return (
-    <main>
-      
-    </main>
-  )
-}
+// function MainContent(){
+//   return (
+//     <main>
+
+//     </main>
+//   )
+// }
