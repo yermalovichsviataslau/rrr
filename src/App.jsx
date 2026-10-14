@@ -1,41 +1,40 @@
 import './App.css'
+import Card from './components/Card'
+import UserCard from './components/UserCard'
 function App() {
+  const style = { border: '2px solid white' }
   return (
     <>
-      <h1>developer</h1>
-      <q>учебный проект</q>
-      <Header />
-      <MainContent>
-        <Section />
-      </MainContent>
-      <Footer />
+      <Card>
+         <UserCard
+        name="Павел"
+        role="Frontend-разработчик"
+        experience={3}
+        location={{ city: 'Минск', country: 'Беларусь' }}
+        isAvailable={true}
+        style={style}
+      />
+
+      <br />
+      <UserCard
+        name="Дима"
+        role="Backend-разработчик"
+        experience={2}
+        location={{ city: 'Минск', country: 'Беларусь' }}
+        isAvailable={true}
+        style={style}
+      />
+      <br />
+      <UserCard
+        name="Петр"
+        role="Fullstack-разработчик"
+        experience={7}
+        location={{ city: 'Минск', country: 'Беларусь' }}
+        isAvailable={false}
+        style={style}
+      />
+      </Card>
     </>
-  )
-}
-function Footer (){
-  return(
-    <footer>footer</footer>
-  )
-}
-function  Header(){
-  return(
-    <header>
-      header
-    </header>
-  )
-}
-function MainContent(){
-  return (
-    <main>
-      main
-    </main>
-  )
-}
-function Section (){
-  return(
-    <section>
-      section
-    </section>
   )
 }
 
