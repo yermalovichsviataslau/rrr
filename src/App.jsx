@@ -1,41 +1,20 @@
 import './App.css'
+import ColorText from './components/ColorText'
+import Counter from './components/Counter'
+import LiveInput from './components/LiveInput'
+import ToggleText from './components/ToggleText'
 function App() {
+  const style = {
+    border: '2px solid white',
+    marginBottom: '10px',
+  }
   return (
     <>
-      <h1>developer</h1>
-      <q>учебный проект</q>
-      <Header />
-      <MainContent>
-        <Section />
-      </MainContent>
-      <Footer />
+      <Counter style={style} />
+      <ToggleText style={style}/>
+      <LiveInput style={style}/>
+      <ColorText style={style}/>
     </>
-  )
-}
-function Footer (){
-  return(
-    <footer>footer</footer>
-  )
-}
-function  Header(){
-  return(
-    <header>
-      header
-    </header>
-  )
-}
-function MainContent(){
-  return (
-    <main>
-      main
-    </main>
-  )
-}
-function Section (){
-  return(
-    <section>
-      section
-    </section>
   )
 }
 
