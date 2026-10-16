@@ -1,17 +1,14 @@
-import { useState } from "react"
-
-function LiveInput({style}){
-  const [val, setVal] = useState('')
+function LiveInput({style, name, setName}){
 
   const handleChange = (event) =>{
-    setVal(event.target.value)
+    setName(event.target.value)
   }
 
   return (
 
     <div style={style}>
-      <p>value: {val}</p>
-      <input type="text" value={val} onChange={handleChange}/>
+      <p>value: {name}</p>
+      <input type="text" value={name} onChange={handleChange}/>
     </div>
   )
 }
