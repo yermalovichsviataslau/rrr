@@ -5,25 +5,46 @@ function ShoppingCart({ style }) {
     { id: 1, title: 'Футболка', count: 1 },
     { id: 2, title: 'Кепка', count: 2 },
   ])
-  
-  const addItem = () =>{
-    setCart()
+
+  const addItem = (id) => {
+    setCart((prevCart) =>
+      prevCart.map((item) => {
+        if(item.id === id){
+          return {...item, count: item.count + 1 }
+        }
+        return item
+      })
+    )
   }
+
+  const deleteItem = (id) =>{
+    setCart(prevItem=> prevItem.filter(item => item.id !== id) )
+  }
+
+  const deleteAllItem = () => { setCart([])}
 
   return (
     <div style={style}>
       <p>Корзина товаров</p>
-      <ul>
+      <ul
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}
+      >
         {cart.map((item) => (
-          <div  style={{display: 'flex', alignItems: 'center'}}>
-            <li style={{ listStyle: 'none' }}>{`${item.title} (кол-во: ${item.count})`}</li>
-            <button onClick={addItem}>+1</button>
-            <button>delete</button>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <li
+              style={{ listStyle: 'none' }}
+            >{`${item.title} (кол-во: ${item.count})`}</li>
+            <button onClick={()=> addItem(item.id)}>+1</button>
+            <button onClick={() => deleteItem(item.id)}>delete</button>
           </div>
         ))}
       </ul>
       {/* <Item /> */}
-      <button>delete shoppingCart</button>
+      <button onClick={deleteAllItem}>delete shoppingCart</button>
     </div>
   )
 }
