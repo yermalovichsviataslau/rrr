@@ -1,36 +1,34 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import './App.css'
-import ColorText from './components/ColorText'
-import Counter from './components/Counter'
-import LiveInput from './components/LiveInput'
-import ParentComponent from './components/ParentComponent'
-import ToggleText from './components/ToggleText'
+import List from './components/List'
 
 function App() {
-  const [name, setName] = useState('')
+  const [list, setList] = useState([
+    { id: 1, name: 'pavel'},
+    { id: 2, name: 'ivan'},
+    { id: 3, name: 'danila'},
+  ])
 
+  const[val, setVal] = useState('')
+  const inputRef = useRef()
 
-
-
-  const style = {
-    border: '2px solid white',
-    marginBottom: '10px',
-    bittonRight: '10px'
-    
+  const focusInput = ()=>{
+    inputRef.current.focus()
   }
-  const styleBtn ={
-    marginRight: '10px'
+
+  const addItem = (e) =>{
+    if(e.key=== 'Enter' && val.trim() !== ''){
+      setList(prevItem => [...prevItem, {id: prevItem.length + 1, name: e.target.value}])
+      setVal('')
+    }
+    
   }
 
   return (
     <>
-      <Counter style={style} />
-      <ToggleText style={style}/>
-      <LiveInput style={style} name={name} setName={setName}/>
-      <ColorText style={style}/>
-
-      <ParentComponent style={style} styleBtn={styleBtn} name={name} setName={setName}/>
-    
+      <input ref={inputRef} type="text" onKeyDown={addItem} value={val} onChange={e=> setVal(e.target.value)}/>
+      <button onClick={focusInput}>Фокус</button>
+      <List arr={list} setList={setList} />
     </>
   )
 }
