@@ -1,36 +1,37 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
-import ColorText from './components/ColorText'
-import Counter from './components/Counter'
-import LiveInput from './components/LiveInput'
-import ParentComponent from './components/ParentComponent'
-import ToggleText from './components/ToggleText'
-
+const API_URL = import.meta.env.VITE_API_URL
 function App() {
-  const [name, setName] = useState('')
 
+  const [val, setVal] = useState('3')
+  const [count, setCount] = useState(0)
 
-
-
-  const style = {
-    border: '2px solid white',
-    marginBottom: '10px',
-    bittonRight: '10px'
-    
+  const changeCount = (e) => {
+    const newVal = e.target.value
+    if (isNaN(newVal) && newVal !== '') {
+      alert('нельзя ввести символы и буквы')
+      return
+    }
+    setVal(e.target.value)
   }
-  const styleBtn ={
-    marginRight: '10px'
-  }
+
+  const showImg = () => {}
+
+  useEffect(()=>{
+    async function getImg (){
+      const response = await fetch(`${API_URL}/breads/image/random`)
+    }
+    const img =  
+  },[])
 
   return (
     <>
-      <Counter style={style} />
-      <ToggleText style={style}/>
-      <LiveInput style={style} name={name} setName={setName}/>
-      <ColorText style={style}/>
-
-      <ParentComponent style={style} styleBtn={styleBtn} name={name} setName={setName}/>
-    
+      <h1>Галерея собак</h1>
+      <p>Картинки обновлены {} раз(а)</p>
+      <p>Показать</p>
+      <input type="text" value={val} onChange={changeCount} />
+      <button onClick={showImg}></button>
+      <ul></ul>
     </>
   )
 }
