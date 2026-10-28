@@ -1,36 +1,52 @@
 import { useState } from 'react'
 import './App.css'
-import ColorText from './components/ColorText'
-import Counter from './components/Counter'
-import LiveInput from './components/LiveInput'
-import ParentComponent from './components/ParentComponent'
-import ToggleText from './components/ToggleText'
+import ListWithoutKey from './components/ListWithoutKey'
+import ListWithKey from './components/ListWithKey'
 
+const initialList = Array.from({length: 10}, (_, index) => ({id: Date.now(), text: index }))
 function App() {
-  const [name, setName] = useState('')
+  const [list, setList] = useState(initialList)
+  const [key, setKey] = useState(true)
 
-
-
-
-  const style = {
-    border: '2px solid white',
-    marginBottom: '10px',
-    bittonRight: '10px'
-    
-  }
-  const styleBtn ={
-    marginRight: '10px'
+  const handleClick = () => {
+    setKey((prevKey) => !prevKey)
   }
 
   return (
     <>
-      <Counter style={style} />
-      <ToggleText style={style}/>
-      <LiveInput style={style} name={name} setName={setName}/>
-      <ColorText style={style}/>
+      <div style={{ gap: '15px', display: 'flex', flexDirection: 'column' }}>
+        <button onClick={handleClick}>Change key</button>
+        <button onClick={() => setList((prevItem) => [{id: Date.now(), text:'начало'}, ...prevItem])}>
+          Добавить элемент в начало
+        </button>
+        <button onClick={() => setList((prevList) => [...prevList, {id: Date.now(), text:'конец'}])}>
+          Добавить элемент в конец
+        </button>
+        <button onClick={() => setList((prevList) => prevList.slice(1))}>
+          Удалить первый
+        </button>
+        <button
+          onClick={() =>
+            setList((prevList) => [...prevList].sort(() => Math.random() - 0.5))
+          }
+        >
+          Перемешать список
+        </button>
+        <button onClick={() => setList((prevList)=> {
+          const copy = [...prevList]
+          const reandomIndex= Math.floor(Math.random() * copy.length)
+          copy[reandomIndex] ={...copy[reandomIndex], text: Math.floor(Math.random() * 100) }
+          return copy
+        })}>
+          Обновить случайный элемент
+        </button>
+      </div>
 
-      <ParentComponent style={style} styleBtn={styleBtn} name={name} setName={setName}/>
-    
+      {key === true ? (
+        <ListWithKey list={list} />
+      ) : (
+        <ListWithoutKey list={list} />
+      )}
     </>
   )
 }
