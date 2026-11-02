@@ -1,36 +1,34 @@
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import './App.css'
-import ColorText from './components/ColorText'
-import Counter from './components/Counter'
-import LiveInput from './components/LiveInput'
-import ParentComponent from './components/ParentComponent'
-import ToggleText from './components/ToggleText'
+import CounterButton from './components/CounterButton'
+import ItemList from './components/ItemList'
+import SearchInput from './components/SearchInput'
 
 function App() {
-  const [name, setName] = useState('')
+  const [count, setCount] = useState(0)
+  const [value, setValue] = useState('')
+  const [list] = useState([
+  { id: 1, text: 'pavel' },
+  { id: 2, text: 'maria' },
+  { id: 3, text: 'nikita' },
+])
 
+  const handleClick = useCallback(() => {
+    setCount((prevItem) => prevItem + 1)
+  }, [])
 
+const filterList = useMemo(() => {
+    return list.filter((item) =>
+      item.text.toLowerCase().includes(value.toLowerCase())
+    );
+  }, [value, list]);
 
-
-  const style = {
-    border: '2px solid white',
-    marginBottom: '10px',
-    bittonRight: '10px'
-    
-  }
-  const styleBtn ={
-    marginRight: '10px'
-  }
-
+  
   return (
     <>
-      <Counter style={style} />
-      <ToggleText style={style}/>
-      <LiveInput style={style} name={name} setName={setName}/>
-      <ColorText style={style}/>
-
-      <ParentComponent style={style} styleBtn={styleBtn} name={name} setName={setName}/>
-    
+      <CounterButton count={count} handleClick={handleClick} />
+      <SearchInput value={value} setValue={setValue} />
+      <ItemList list={filterList} />
     </>
   )
 }
