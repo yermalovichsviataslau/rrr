@@ -5,6 +5,9 @@ import Counter from './components/Counter'
 import LiveInput from './components/LiveInput'
 import ParentComponent from './components/ParentComponent'
 import ToggleText from './components/ToggleText'
+import ProfileUser from './components/ProfileUser'
+import TodoList from './components/TodoList'
+import ShoppingCart from './components/ShoppingCart'
 
 function App() {
   const [name, setName] = useState('')
@@ -30,7 +33,12 @@ function App() {
       <ColorText style={style}/>
 
       <ParentComponent style={style} styleBtn={styleBtn} name={name} setName={setName}/>
-    
+
+      <ProfileUser style={style} styleBtn={styleBtn}/>
+
+      <TodoList style={style}/>
+
+      <ShoppingCart style={style}/>
     </>
   )
 }
