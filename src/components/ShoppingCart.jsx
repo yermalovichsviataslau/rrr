@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import CartItem from './CartItem'
 
 function ShoppingCart({ style }) {
   const [cart, setCart] = useState([
@@ -33,17 +34,10 @@ function ShoppingCart({ style }) {
           flexDirection: 'column',
         }}
       >
-        {cart.map((item) => (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <li
-              style={{ listStyle: 'none' }}
-            >{`${item.title} (кол-во: ${item.count})`}</li>
-            <button onClick={()=> addItem(item.id)}>+1</button>
-            <button onClick={() => deleteItem(item.id)}>delete</button>
-          </div>
+        {cart.map((item, index) => (
+          <CartItem item={item} index={index} addItem={addItem} deleteItem={deleteItem}/>
         ))}
       </ul>
-      {/* <Item /> */}
       <button onClick={deleteAllItem}>delete shoppingCart</button>
     </div>
   )

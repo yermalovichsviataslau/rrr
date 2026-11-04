@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import UserInfo from './UserInfo'
 
 function ProfileUser({ style , styleBtn }) {
+  console.log('ProfileUser')
   const [user, setUser] = useState({
     name: 'Иван',
     age: 25,
@@ -32,11 +34,9 @@ function ProfileUser({ style , styleBtn }) {
   }
 
   return (
-    <div style={style}>
+    <div style={style}>dasd
       <h2>Профиль пользователя</h2>
-      <p>name: {user.name}</p>
-      <p>age: {user.age}</p>
-      <p>isActive: {String(user.isActive)}</p>
+      <UserInfo user={user}/>
 
       <button style={styleBtn} onClick={chageName}>Сменить имя</button>
       <button  style={styleBtn} onClick={increment}>Увеличить возраст</button>
