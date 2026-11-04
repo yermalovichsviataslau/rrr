@@ -1,8 +1,8 @@
 import { memo } from 'react'
 
-function CartItem({item, index, addItem, deleteItem}) {
+function CartItem({item, addItem, deleteItem}) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }} key={index}>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
       <li
         style={{ listStyle: 'none' }}
       >{`${item.title} (кол-во: ${item.count})`}</li>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import CartItem from './CartItem'
 
 function ShoppingCart({ style }) {
@@ -7,7 +7,7 @@ function ShoppingCart({ style }) {
     { id: 2, title: 'Кепка', count: 2 },
   ])
 
-  const addItem = (id) => {
+  const addItem = useCallback((id) => {
     setCart((prevCart) =>
       prevCart.map((item) => {
         if(item.id === id){
@@ -16,13 +16,13 @@ function ShoppingCart({ style }) {
         return item
       })
     )
-  }
+  }, [])
 
-  const deleteItem = (id) =>{
+  const deleteItem = useCallback((id) =>{
     setCart(prevItem=> prevItem.filter(item => item.id !== id) )
-  }
+  }, [])
 
-  const deleteAllItem = () => { setCart([])}
+  const deleteAllItem = useCallback(() => { setCart([])}, [])
 
   return (
     <div style={style}>
@@ -34,8 +34,8 @@ function ShoppingCart({ style }) {
           flexDirection: 'column',
         }}
       >
-        {cart.map((item, index) => (
-          <CartItem item={item} index={index} addItem={addItem} deleteItem={deleteItem}/>
+        {cart.map((item) => (
+          <CartItem key={item.id} item={item} addItem={addItem} deleteItem={deleteItem}/>
         ))}
       </ul>
       <button onClick={deleteAllItem}>delete shoppingCart</button>
